@@ -2,11 +2,12 @@
 
 namespace tuan4.Models
 {
-    public class ApplicationUser : IdentityUser 
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser> 
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
+        public string Name { get; set; }
+       
+      public DbSet<Course> Courses { get; set; }
+      public DbSet<Category> Categogies { get;set }
+        public ApplicationDbContext()
+
 }
