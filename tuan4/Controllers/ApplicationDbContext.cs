@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using tuan4.Models;
 
 namespace tuan4.Controllers
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+        public DbSet<Course> Course { get; set; }
+        public DbSet<Category> Categoryes { get; set; }
+        public DbSet<Attendance> Attendance { get; set; }
     {
-        public 
-        public IActionResult Index()
+        public ApplicationDbCOntext()
+             :base("DefaultConnection")
         {
-            return View();
         }
     }
 }
