@@ -4,24 +4,39 @@ using tuan4.Models;
 
 namespace tuan4.Controllers
 {
-    public class HomeController : Controller
+    public class AttendancesController : ApiControllerAttribute
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private ApplicationDbContext _dbContext;
+        public AttendancesController()
         {
-            _logger = logger;
+            _dbContext = new ApplicationDbContext();
         }
 
-        public IActionResult Index()
+        public IHttpActionResult Attend([FromBody] int courseId)
+        {
+            var attendance = new Attendance
+            {
+                CourseId = courseId,
+                AttenddeeId = User.Identity.GetUserId()
+            };
+            _dbContext.Attendance.Add(attendance);
+            _dbContext.SaveChanges();
+                
+            return OK();
+        }
+        public ActionResulf Index()
         {
             var upcommingCourses = _dbContext.Courses
                 .Include(c => c.Lecturer)
                 .Include(c => c.Category)
                 .Where(c => c.DateTime > DateTime.Now);
-            return View(upcommingCourses);
+            var viewModel = new CouresViewModel
+            {
+                UpcommingCourses = upcommingCourses,
+                ShowAction = UserSecretsConfigurationExtensions.Identity.IsAuthenticated,
+            };
+            return View(viewModel);
         }
-
         public IActionResult Privacy()
         {
             return View();

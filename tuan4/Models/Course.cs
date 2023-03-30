@@ -5,7 +5,8 @@ namespace tuan4.Models
     public class Course
     {
     public int Id { get; set; }
-        public ApplicationUser Lecturer { get; set; }
+        public bool IsCanceled { get; set; }
+        public ApplicationId Lecturer { get; set; }
         public String LecturerId { get; set; }
         public String Place { get; set; }
         public DateTime DateTime { get; set; }
